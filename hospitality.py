@@ -1,5 +1,6 @@
 valid_gender = ['M','F','MALE','FEMALE','']
 valid_locality = ['ANN ARBOR','BUFFALO','CHICAGO','CHINA','CLEVELAND','CLEVELAND HEIGHTS','COLUMBUS','DETROIT','EVANSTON','INDIANAPOLIS','KALAMAZOO','LORAIN','MISSISSAUGA','MONTREAL','NAPERVILLE','PITTSBURGH','TEMPLE CITY','TORONTO','WILLOUGHBY','']
+recognized_preferences = ['COT','FLOOR','BED']
 
 class Person:
 	def __init__(self, first, last, gender, age, locality, preferences = []):
@@ -10,10 +11,7 @@ class Person:
 			'male' and 'female' in upper or lower case is okay.
 		age = integer, ex: 27. String okay too, ex: "27".
 		locality = string, upper or lower case anywhere is okay, but must be spelled correctly.
-		preferences = list of tuples. Tuple contains String describing preference and 
-			integer (0,1, or 2) describing importance. 0: not important. 
-			1: strongly prefered. 2: required.
-			Ex: [('bed',0),('no stairs',2),('no pets',1),('be with Claire',2)]
+		preferences = List describing preferences, any subset of: ['floor', 'cot', 'bed']. (FOR NOW)
 		"""
 		error = ''
 		if not (type(first) is str and type(last) is str):
@@ -30,6 +28,13 @@ class Person:
 		self.locality = locality.upper()
 		if preferences == '':
 			preferences = []
+		elif type(preferences) is str:
+			temp = []
+			for p in preferences.split(','):
+				if p.upper().strip(' ') not in recognized_preferences:
+					error += "WARNING: UNRECOGNIZED PREFERENCE: " + p + "\n"
+				temp.append(p)
+			preferences = temp
 		self.preferences = preferences
 
 		if len(error) > 0:
@@ -83,7 +88,7 @@ class Host:
 		preferences = list of sleeping place preferences matching 
 			the indices of sleeping places. Ex: ['male only','male only','']
 		"""
-		self.spot_types = ['COT','FLOOR','BED']
+		self.space_types = ['COT','FLOOR','BED']
 
 		error = ''
 		if type(name) is not str:
@@ -94,8 +99,8 @@ class Host:
 		if type(preferences) is not list:
 			error += "ERROR: INVALID INPUT FOR SLEEPING PLACES PREFERENCES IS NOT LIST: " + str(preferences) + "\n"
 		for i in spaces:
-			if i.upper() not in self.spot_types:
-				error += "ERROR: INVALID SLEEPING SPOT TYPE: " + str(i) + "\n"
+			if i.upper() not in self.space_types:
+				error += "ERROR: INVALID SLEEPING SPACE TYPE: " + str(i) + "\n"
 		self.spaces = spaces
 		self.preferences = preferences
 
@@ -116,3 +121,4 @@ class Host:
 
 	def preferences(self):
 		return self.preferences
+

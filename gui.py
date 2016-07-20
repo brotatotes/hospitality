@@ -8,7 +8,7 @@ class Hospitality(tk.Tk):
 	def __init__(self,parent):
 		tk.Tk.__init__(self,parent)
 		self.parent = parent
-		self.people = read_csv('conference.csv')
+		self.people = read_csv('BB89RT8239.csv')
 		self.initialize()
 
 		self.listbox.bind('<<ListboxSelect>>',self.on_select)
