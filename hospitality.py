@@ -45,7 +45,11 @@ class Person:
 			age = '?'
 		else:
 			age = self.age
-		return "Person: " + str(age) + " year old " + str(self.gender) + " from " + str(self.locality) + " with preferences: " + str(self.preferences) + "\n"
+
+		if len(self.preferences) == 0:
+			return "Person: " + str(age) + " year old " + str(self.gender) + " from " + str(self.locality) + " with no preferences\n"
+		else:
+			return "Person: " + str(age) + " year old " + str(self.gender) + " from " + str(self.locality) + " with preferences: " + str(self.preferences) + "\n"
 
 	def first(self):
 		return self.first
@@ -109,7 +113,10 @@ class Host:
 			print error
 
 	def __repr__(self):
-		return "Host: " + str(self.name) + ", with " + str(len(self.spaces)) + " spaces: " + str(self.spaces) + " with preferences: " + str(self.preferences)
+		if self.preferences == '':	
+			return "Host: " + str(self.name) + ", with " + str(len(self.spaces)) + " spaces: " + str(self.spaces) + " with no preferences\n"
+		else:
+			return "Host: " + str(self.name) + ", with " + str(len(self.spaces)) + " spaces: " + str(self.spaces) + " with preferences: " + str(self.preferences) + "\n"
 
 	def name(self):
 		return self.name
