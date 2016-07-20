@@ -81,10 +81,9 @@ class Host:
 	def __init__(self,name,spaces,preferences):
 		"""
 		name = String representing host's name
-		spaces = list of sleeping places.
-			Length of list represents number of sleeping places. 
+		spaces = String of sleeping places. 
 			Each sleeping place requires a type (cot, floor, bed), with
-			optional descritions. Ex: ['cot','floor','floor']
+			number of spaces. Ex: '4 cot, 8 floor, 1 bed'
 		preferences = list of sleeping place preferences matching 
 			the indices of sleeping places. Ex: ['male only','male only','']
 		"""
@@ -94,31 +93,33 @@ class Host:
 		if type(name) is not str:
 			error += "WARNING: name IS NOT A STRING: " + str(name) + "\n"
 		self.name = str(name)
-		if type(spaces) is not list:
-			error += "ERROR: INVALID INPUT FOR SLEEPING PLACES IS NOT LIST: " + str(spaces) + "\n"
-		if type(preferences) is not list:
-			error += "ERROR: INVALID INPUT FOR SLEEPING PLACES PREFERENCES IS NOT LIST: " + str(preferences) + "\n"
-		for i in spaces:
-			if i.upper() not in self.space_types:
-				error += "ERROR: INVALID SLEEPING SPACE TYPE: " + str(i) + "\n"
-		self.spaces = spaces
+		if type(spaces) is not str:
+			error += "ERROR: INVALID INPUT FOR SLEEPING PLACES IS NOT STRING: " + str(spaces) + "\n"
+		if type(preferences) is not str:
+			error += "ERROR: INVALID INPUT FOR SLEEPING PLACES PREFERENCES IS NOT STRING: " + str(preferences) + "\n"
+		self.spaces = {'cot':0,'floor':0,'bed':0}
+		for i in spaces.split(','):
+			k = i.strip(' ').split(' ')
+			if k[1].upper().strip(' ') not in self.space_types:
+				error += "WARNING: UNRECOGNIZED SLEEPING SPACES INPUT: " + str(i) + "\n"
+			self.spaces[k[1].lower()] += int(k[0])
 		self.preferences = preferences
 
 		if len(error) > 0:
 			print error
 
 	def __repr__(self):
-		return "Host: " + str(self.first) + " " + str(self.last) + ", with " + str(len(self.spaces)) + " spaces: " + str(self.spaces) + " with preferences: " + str(self.preferences)
+		return "Host: " + str(self.name) + ", with " + str(len(self.spaces)) + " spaces: " + str(self.spaces) + " with preferences: " + str(self.preferences)
 
-	def first(self):
-		return self.first
-
-	def last(self):
-		return self.last
+	def name(self):
+		return self.name
 
 	def spaces(self):
 		return self.spaces
 
 	def preferences(self):
 		return self.preferences
+
+	def label(self):
+		return str(self.name) + ": " + str(self.spaces)
 

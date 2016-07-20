@@ -8,33 +8,39 @@ class Hospitality(tk.Tk):
 	def __init__(self,parent):
 		tk.Tk.__init__(self,parent)
 		self.parent = parent
-		self.people = read_csv('BB89RT8239.csv')
+		self.people = read_people('BB89RT8239.csv')
+		self.hosts = read_hosts('AFSB8ASD8F32.csv')
 		self.initialize()
 
-		self.listbox.bind('<<ListboxSelect>>',self.on_select)
+		self.listbox_people.bind('<<ListboxSelect>>',self.on_select_listbox_people)
 
 	def initialize(self):
 		self.minsize(width=1080, height=600)
 		self.maxsize(width=1080, height=600)
 		self.grid()
 
-		self.label = tk.Label(self,text='')
-		self.label.grid(column=0,row=1,sticky='N')
-		self.label.configure(state='disabled')
+		self.label_people = tk.Label(self,text='')
+		self.label_people.grid(column=1,row=0,sticky='N')
+		self.label_people.configure(state='disabled')
 
-		self.listbox = tk.Listbox(self,width=25,height=34)
-		self.listbox.grid(column=0,row=0,sticky='W')
+		self.listbox_people = tk.Listbox(self,width=25,height=34)
+		self.listbox_people.grid(column=0,row=0,sticky='W')
 		for i in self.people:
-			self.listbox.insert(tk.END,i.label())
+			self.listbox_people.insert(tk.END,i.label())
 		
-		# self.grid_columnconfigure(0,weight=1)
+		self.listbox_hosts = tk.Listbox(self,width=35,height=34)
+		self.listbox_hosts.grid(column=2, row=0,sticky='W')
+		for i in self.hosts:
+			self.listbox_hosts.insert(tk.END,i.label())
 
-	def on_select(self,e):
+		self.grid_columnconfigure(1,minsize=536)		
+
+	def on_select_listbox_people(self,e):
 		# Note here that Tkinter passes an event object to on_select()
 		w = e.widget
 		index = int(w.curselection()[0])
 		value = w.get(index)
-		self.label.config(text=str(self.people[index]))
+		self.label_people.config(text=str(self.people[index]))
 
 	
 		
