@@ -14,6 +14,11 @@ class Hospitality(tk.Tk):
 
 		self.listbox_people.bind('<<ListboxSelect>>',self.on_select_listbox_people)
 		self.listbox_hosts.bind('<<ListboxSelect>>',self.on_select_listbox_hosts)
+		
+		a = Assign(self.people,self.hosts)
+		h = a.assign_people()
+		for i in h:
+			print i.people
 
 	def initialize(self):
 		self.minsize(width=1080, height=600)
@@ -53,6 +58,24 @@ class Hospitality(tk.Tk):
 		index = int(w.curselection()[0])
 		value = w.get(index)
 		self.label_hosts.config(text=str(self.hosts[index]))
+
+
+class Assign:
+	def __init__(self,people,hosts):
+		self.people = people
+		self.hosts = hosts
+
+	def assign_people(self):
+		sorted_people = sorted(self.people, key=lambda x: len(x.preferences))
+		for p in sorted_people:
+			if not p.assigned:
+				for h in self.hosts:
+					if(h.assign(p)):
+						break
+		return self.hosts
+
+
+
 
 	
 		
