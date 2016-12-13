@@ -15,10 +15,10 @@ class Hospitality(tk.Tk):
 		self.listbox_people.bind('<<ListboxSelect>>',self.on_select_listbox_people)
 		self.listbox_hosts.bind('<<ListboxSelect>>',self.on_select_listbox_hosts)
 		
-		a = Assign(self.people,self.hosts)
-		h = a.assign_people()
-		for i in h:
-			print i.people
+		# a = Assign(self.people,self.hosts)
+		# h = a.assign_people()
+		# for i in h:
+		# 	print i.people
 
 	def initialize(self):
 		self.minsize(width=1080, height=600)
@@ -74,11 +74,6 @@ class Assign:
 						break
 		return self.hosts
 
-
-
-
-	
-		
 
 if __name__ == "__main__":
 	app = Hospitality(None)
